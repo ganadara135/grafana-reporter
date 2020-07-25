@@ -1,3 +1,9 @@
+# Changed Part from Origin IzakMarias
+Original one doesn't support Korean Lang, So changed LaTex build part of Dockerfile
+> DockerFile
+> deployMy.sh
+
+
 # Grafana reporter <img style="float: right;" src="https://travis-ci.org/IzakMarais/reporter.svg?branch=master">
 
 A simple http service that generates \*.PDF reports from [Grafana](http://grafana.org/) dashboards.
