@@ -9,25 +9,38 @@ RUN make build
 FROM debian:stretch
 COPY util/texlive.profile /
 
-RUN PACKAGES="wget libswitch-perl" \
-        && apt-get update \
-        && apt-get install -y -qq $PACKAGES --no-install-recommends \
-        && apt-get install -y ca-certificates --no-install-recommends \
-        && wget -qO- \
-          "https://github.com/yihui/tinytex/raw/master/tools/install-unx.sh" | \
-          sh -s - --admin --no-path \
-        && mv ~/.TinyTeX /opt/TinyTeX \
-        && /opt/TinyTeX/bin/*/tlmgr path add \
-        && tlmgr path add \
-        && chown -R root:staff /opt/TinyTeX \
-        && chmod -R g+w /opt/TinyTeX \
-        && chmod -R g+wx /opt/TinyTeX/bin \
-        && tlmgr install epstopdf-pkg \
-        # Cleanup
-        && apt-get remove --purge -qq $PACKAGES \
-        && apt-get autoremove --purge -qq \
-        && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get upgrade -y
 
+# For Korean Language on Latex
+RUN apt-get install -y --no-install-recommends texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-lang-korean texlive-xetex
+RUN apt-get autoremove --purge -qq && rm -rf /var/lib/apt/lists/*
 
+# CMD ["bash"]
 COPY --from=build /go/bin/grafana-reporter /usr/local/bin
 ENTRYPOINT [ "/usr/local/bin/grafana-reporter" ]
+
+
+
+# RUN PACKAGES="wget libswitch-perl" \
+#         && apt-get update \
+#         && apt-get install -y -qq $PACKAGES --no-install-recommends \
+#         && apt-get install -y ca-certificates --no-install-recommends \
+#         && wget -qO- \
+#           "https://github.com/yihui/tinytex/raw/master/tools/install-unx.sh" | \
+#           sh -s - --admin --no-path \
+#         && mv ~/.TinyTeX /opt/TinyTeX \
+#         && /opt/TinyTeX/bin/*/tlmgr path add \
+#         && tlmgr path add \
+#         && chown -R root:staff /opt/TinyTeX \
+#         && chmod -R g+w /opt/TinyTeX \
+#         && chmod -R g+wx /opt/TinyTeX/bin \
+#         && tlmgr install epstopdf-pkg \
+#         # Cleanup
+#         && apt-get remove --purge -qq $PACKAGES \
+#         && apt-get autoremove --purge -qq \
+#         && rm -rf /var/lib/apt/lists/*
+
+
+# COPY --from=build /go/bin/grafana-reporter /usr/local/bin
+# ENTRYPOINT [ "/usr/local/bin/grafana-reporter" ]
