@@ -1,5 +1,5 @@
-# Changed Part from Origin IzakMarias
-Original one doesn't support Korean Lang, So changed LaTex build part of Dockerfile
+# Changed Part from Original IzakMarias
+Original one doesn't support korean lang, So changed LaTex build part of Dockerfile
 > Dockerfile <br>
 
 > deployMy.sh
